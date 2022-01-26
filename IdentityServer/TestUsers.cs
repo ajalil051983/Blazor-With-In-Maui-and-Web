@@ -9,9 +9,9 @@ using System.Security.Claims;
 using System.Text.Json;
 using IdentityServer4;
 
-namespace IdentityServerHost.Quickstart.UI
+namespace IdentityServer
 {
-    public class TestUsers
+    public static class TestUsers
     {
         public static List<TestUser> Users
         {
@@ -24,7 +24,7 @@ namespace IdentityServerHost.Quickstart.UI
                     postal_code = 69118,
                     country = "Germany"
                 };
-                
+
                 return new List<TestUser>
                 {
                     new TestUser

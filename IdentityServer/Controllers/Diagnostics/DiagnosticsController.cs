@@ -4,6 +4,7 @@
 
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityServer.Models.Diagnostics;
 using IdentityServerHost.Quickstart.UI;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;

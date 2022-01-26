@@ -58,6 +58,29 @@ namespace IdentityServer
                         IdentityServerConstants.StandardScopes.Profile,
                         "api1"
                     }
+                },
+                // mobile client
+                new Client
+                {
+                    ClientName = "maui",
+                    ClientId = "maui",
+                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowOfflineAccess = true, // allow refresh tokens
+                    RequireClientSecret = false,
+                    RedirectUris = new List<string>
+                    {
+                        "oidcxamarin101:/authorized"
+                    },
+                    PostLogoutRedirectUris = new List<string>
+                    {
+                        "oidcxamarin101:/unauthorized",
+                    },
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "api1"
+                    }
                 }
             };
     }

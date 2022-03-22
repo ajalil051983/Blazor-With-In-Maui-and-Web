@@ -5,6 +5,22 @@ Once the prerequisites are installed, the last step is installing the .NET MAUI 
 
 You can also verify your development environment and install any missing components by using the maui-check utility. We will cover it later in this section.
 
+## Installing the Single-project MSIX Packaging Tools for VS 2022 extension
+
+Next, you must install the Visual Studio extension [Single-project MSIX Packaging Tools for VS 2022](https://marketplace.visualstudio.com/items?itemName=ProjectReunion.MicrosoftSingleProjectMSIXPackagingToolsDev17) to create apps that target Windows UI Library (WinUI) 3.
+
+This extension provides Visual Studio 2022 support for working with and debugging Windows apps that use Single-project MSIX Packaging. A MAUI dependency.
+
+#### Installing Microsoft Edge WebView2
+The Microsoft Edge WebView2 control allows you to embed web technologies (HTML, CSS, and JavaScript) in your native apps. This control is a prerequisite for .NET MAUI.
+
+To install the package, follow the steps below:
+
+- Open the [Microsoft Edge WebView2](https://developer.microsoft.com/en-us/microsoft-edge/webview2/) download page.
+- Scroll down to the bottom and click the Download button from the section Evergreen Bootstrapper.
+- Read and accept the License Terms.
+- Run the downloaded installer as administrator.
+
 # Installing the .NET MAUI workloads
 
 In a command prompt or terminal, run the following command to install the .NET MAUI workloads

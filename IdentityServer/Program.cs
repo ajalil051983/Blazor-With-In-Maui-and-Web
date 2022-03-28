@@ -3,7 +3,6 @@
 
 
 using Microsoft.AspNetCore.Hosting;
-using Serilog;
 using Microsoft.Extensions.Hosting;
 using IdentityServer;
 
@@ -11,7 +10,6 @@ CreateHostBuilder(args).Build().Run();
 
 IHostBuilder CreateHostBuilder(string[] args) =>
     Host.CreateDefaultBuilder(args)
-        .UseSerilog()
         .ConfigureWebHostDefaults(webBuilder =>
         {
             webBuilder.UseStartup<Startup>();

@@ -14,19 +14,19 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
     ApplicationName = typeof(Program).Assembly.FullName,
     ContentRootPath = Directory.GetCurrentDirectory(),
-    EnvironmentName = Environments.Staging,
+    EnvironmentName = Environments.Development,
 });
 var config = builder.Configuration;
 var startup = new Startup(config);
 startup.ConfigureServices(builder.Services);
 
-if (config.GetValue<bool>("UseVault", false))
-{
-    config.AddAzureKeyVault(
-        $"https://{config["Vault:Name"]}.vault.azure.net/",
-        config["Vault:ClientId"],
-        config["Vault:ClientSecret"]);
-}
+//if (config.GetValue<bool>("UseVault", false))
+//{
+//    config.AddAzureKeyVault(
+//        $"https://{config["Vault:Name"]}.vault.azure.net/",
+//        config["Vault:ClientId"],
+//        config["Vault:ClientSecret"]);
+//}
 var app = builder.Build();
 SeedData.EnsureSeedData(config, app.Logger);
 startup.Configure(app, app.Environment);

@@ -2,8 +2,7 @@
 @{
     ViewData["Title"] = "Register";
 }
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
+<link rel="stylesheet" href="~/lib/leaflet/leaflet.css"/>
 <style type="text/css">
 
     #map {
@@ -22,90 +21,87 @@
             text-decoration: underline
         }
 </style>
-<div class="brand-header-block">
-    <ul class="container">
-        <li class="active">REGISTER</li>
-        <li style="margin-right: 65px;"><a asp-area="" asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]">LOGIN</a></li>
-    </ul>
-</div>
-<div class="container register-container">
-    <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-        <h4 class="order-create-section-title">CREATE NEW ACCOUNT</h4>
-        <div asp-validation-summary="All" class="text-danger"></div>
+
+<section class="section-padding" id="registerContainer">
+    <div class="container register-container">
         <div class="row">
-            <div class="form-group col-sm-6">
-                <label asp-for="User.Name" class="control-label form-label">NAME</label>
-                <input asp-for="User.Name" class="form-control form-input" />
-                <span asp-validation-for="User.Name" class="text-danger" />
+
+            <div class="col-lg-8 col-12 mx-auto">
+                <div class="booking-form">
+
+                    <h2 class="text-center mb-lg-3 mb-2">Create new account</h2>
+                    <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" role="form">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <input asp-for="User.Name" class="form-control" placeholder="Name" required />
+                                <span asp-validation-for="User.Name" class="text-danger"></span>
+                            </div>
+                            <div class="col-sm-6">
+                                <input asp-for="User.LastName" class="form-control" placeholder="Last Name" required />
+                                <span asp-validation-for="User.LastName" class="text-danger" />
+                            </div>
+                            <div class="col-sm-3">
+                                <input asp-for="User.PhoneNumber" class="form-control" placeholder="Phone" required />
+                                <span asp-validation-for="User.PhoneNumber" class="text-danger" />
+                            </div>
+                            <div class="col-sm-6">
+                                <input asp-for="User.CityId" class="form-control" placeholder="City Id" />
+                                <span asp-validation-for="User.CityId" class="text-danger" />
+                            </div>
+                            <div class="col-sm-6">
+                                <input asp-for="User.Address" class="form-control" placeholder="Address" required id="addr" />
+                                <span asp-validation-for="User.Address" class="text-danger" />
+                                <button type="button" onclick="addr_search();"><i class="bi-geo timeline-icon"></i></button>
+                            </div>
+                            <div id="results"></div>
+                            <div class="col-sm-6">
+                                <input asp-for="User.Latitude" class="form-control" placeholder="Latitude" required id="lat" />
+                                <span asp-validation-for="User.Latitude" class="text-danger" />
+                            </div>
+                            <div class="col-sm-6">
+                                <input asp-for="User.Longitude" class="form-control" placeholder="Longitude" required id="lon" />
+                                <span asp-validation-for="User.Longitude" class="text-danger" />
+                            </div>
+                            <div id="map"></div>
+
+                        </div>
+                        <br /><br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <input asp-for="Email" class="form-control" placeholder="E-mail" required />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="col-sm-offset-6"></div>
+                            <div class=" col-sm-6">
+                                <input asp-for="Password" class="form-control" placeholder="Password" required />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="col-sm-6">
+                                <input asp-for="ConfirmPassword" class="form-control" placeholder="Comfirmation" required />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-6 mx-auto">
+                                <button type="submit" class="form-control" id="submit-button">Register</button>
+                            </div>
+                            <div class="col-lg-6 col-6 mx-auto">
+                                <a asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" class="form-control" id="cancel-button">Login</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group col-sm-6">
-                <label asp-for="User.LastName" class="control-label form-label">LAST NAME</label>
-                <input asp-for="User.LastName" class="form-control form-input" />
-                <span asp-validation-for="User.LastName" class="text-danger" />
-            </div>
-            <div class="form-group col-sm-3">
-                <label asp-for="User.PhoneNumber" class="control-label form-label">Téléphone</label>
-                <input asp-for="User.PhoneNumber" placeholder="MM/YY" class="form-control form-input form-input-small" />
-                <span asp-validation-for="User.PhoneNumber" class="text-danger" />
-            </div>
-            <div class="form-group col-sm-6">
-                <label asp-for="User.CityId" class="control-label form-label"></label>
-                <input asp-for="User.CityId" class="form-control form-input" />
-                <span asp-validation-for="User.CityId" class="text-danger" />
-            </div>
-            <div class="form-group col-sm-6">
-                <label asp-for="User.CabinetId" class="control-label form-label"></label>
-                <input asp-for="User.CabinetId" class="form-control form-input" />
-                <span asp-validation-for="User.CabinetId" class="text-danger" />
-            </div>
-            <div class="form-group col-sm-6">
-                <label asp-for="User.Address" class="control-label form-label">Adresse</label>
-                <input asp-for="User.Address" class="form-control form-input" id="addr" />
-                <span asp-validation-for="User.Address" class="text-danger" />
-                <button type="button" onclick="addr_search();">Chercher Les Coordonnées Geo</button>
-            </div>
-            <div id="results"></div>
-            <div class="form-group col-sm-6">
-                <label asp-for="User.Latitude" class="control-label form-label">Latitude</label>
-                <input asp-for="User.Latitude" class="form-control form-input" id="lat" />
-                <span asp-validation-for="User.Latitude" class="text-danger" />
-            </div>
-            <div class="form-group col-sm-6">
-                <label asp-for="User.Longitude" class="control-label form-label">Longitude</label>
-                <input asp-for="User.Longitude" class="form-control form-input" id="lon" />
-                <span asp-validation-for="User.Longitude" class="text-danger" />
-            </div>
-            <div id="map"></div>
 
         </div>
-        <br /><br />
-        <div class="row">
-            <div class="form-group col-sm-6">
-                <label asp-for="Email" class="control-label form-label"></label>
-                <input asp-for="Email" class="form-control form-input" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group col-sm-offset-6"></div>
-            <div class="form-group col-sm-6">
-                <label asp-for="Password" class="control-label form-label"></label>
-                <input asp-for="Password" class="form-control form-input" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group col-sm-6">
-                <label asp-for="ConfirmPassword" class="control-label form-label"></label>
-                <input asp-for="ConfirmPassword" class="form-control form-input" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
-        </div>
-        <br /><br />
-        <div class="form-group">
-            <button type="submit" class="btn btn-default btn-brand">&nbsp;Register&nbsp;</button>
-        </div>
-        <br /><br />
-    </form>
-</div>
+    </div>
+</section>
 @section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript" src="~/lib/leaflet/leaflet.js"></script>
     <script type="text/javascript" src="~/js/lefletmapscript.js"></script>
 }
 

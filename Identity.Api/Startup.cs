@@ -107,6 +107,8 @@ namespace Identity.Api
             .Services.AddTransient<IProfileService, ProfileService>();
 
             //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            //services.AddWebOptimizer();
+            services.AddWebOptimizer(minifyJavaScript: false, minifyCss: false);
             services.AddControllers();
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -132,13 +134,14 @@ namespace Identity.Api
             {
                 app.UsePathBase(pathBase);
             }
-
+            app.UseWebOptimizer();
             app.UseStaticFiles();
 
             // Make work identity server redirections in Edge and lastest versions of browers. WARN: Not valid in a production environment.
             app.Use(async (context, next) =>
             {
-                context.Response.Headers.Add("Content-Security-Policy", "script-src 'unsafe-inline'");
+                context.Response.Headers.Add("Content-Security-Policy", "script-src 'self'");
+                context.Response.Headers.Add("Access-Control-Allow-Origin", "https://nominatim.openstreetmap.org");
                 await next();
             });
 
@@ -175,42 +178,41 @@ namespace Identity.Api
 
         private void InitializeDatabase(IApplicationBuilder app)
         {
-            using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            using var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
+            scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+            var configContext = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+            configContext.Database.Migrate();
+            //callbacks urls from config:
+            var clientUrls = new Dictionary<string, string>
             {
-                scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
-                var configContext = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
-                configContext.Database.Migrate();
-                //callbacks urls from config:
-                var clientUrls = new Dictionary<string, string>();
+                { "blazorWeb", Configuration.GetValue<string>("blazorClient") }
+            };
 
-                clientUrls.Add("blazorWeb", Configuration.GetValue<string>("blazorClient"));
-
-                if (!configContext.Clients.Any())
+            if (!configContext.Clients.Any())
+            {
+                foreach (var client in Config.GetClients(clientUrls))
                 {
-                    foreach (var client in Config.GetClients(clientUrls))
-                    {
-                        configContext.Clients.Add(client.ToEntity());
-                    }
-                    configContext.SaveChangesAsync();
+                    configContext.Clients.Add(client.ToEntity());
                 }
+                configContext.SaveChangesAsync();
+            }
 
-                if (!configContext.IdentityResources.Any())
+            if (!configContext.IdentityResources.Any())
+            {
+                foreach (var resource in Config.IdentityResources)
                 {
-                    foreach (var resource in Config.IdentityResources)
-                    {
-                        configContext.IdentityResources.Add(resource.ToEntity());
-                    }
-                    configContext.SaveChanges();
+                    configContext.IdentityResources.Add(resource.ToEntity());
                 }
+                configContext.SaveChanges();
+            }
 
-                if (!configContext.ApiScopes.Any())
+            if (!configContext.ApiScopes.Any())
+            {
+                foreach (var resource in Config.ApiScopes)
                 {
-                    foreach (var resource in Config.ApiScopes)
-                    {
-                        configContext.ApiScopes.Add(resource.ToEntity());
-                    }
-                    configContext.SaveChanges();
+                    configContext.ApiScopes.Add(resource.ToEntity());
                 }
+                configContext.SaveChanges();
             }
         }
     }

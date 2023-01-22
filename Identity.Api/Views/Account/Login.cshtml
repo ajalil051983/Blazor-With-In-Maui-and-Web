@@ -4,59 +4,51 @@
 @{
     ViewData["Title"] = "Log in";
 }
-<div class="brand-header-block">
-    <ul class="container">
-        <li><a asp-area="" asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">REGISTER</a></li>
-        <li class="active" style="margin-right: 65px;">LOGIN</li>
-    </ul>
-</div>
-<div class="container account-login-container">
-    <div class="row">
-        <div class="col-md-12">
-            <section>
-                <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-                    <input type="hidden" asp-for="ReturnUrl" />
-                    <h4>ARE YOU REGISTERED?</h4>
-                    <div asp-validation-summary="All" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="Email" class="control-label form-label"></label>
-                        <input asp-for="Email" class="form-control form-input form-input-center" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Password" class="control-label form-label"></label>
-                        <input asp-for="Password" class="form-control form-input form-input-center" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label asp-for="RememberMe">
-                                <input asp-for="RememberMe" />
-                                @Html.DisplayNameFor(m => m.RememberMe)
-                            </label>
+<section class="section-padding" id="loginPage">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-8 col-12 mx-auto">
+                <div class="booking-form">
+
+                    <h2 class="text-center mb-lg-3 mb-2">Login</h2>
+
+                    <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" role="form">
+                        <input type="hidden" asp-for="ReturnUrl" />
+                        <div class="col-lg-6 col-12 mx-auto">
+                            <input asp-for="Email" class="form-control" placeholder="Email" required />
+                            <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-default btn-brand btn-brand-big">&nbsp;LOG IN&nbsp;</button>
-                    </div>
-                    <p>
-                        <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" class="text">Register as a new user?</a>
-                    </p>
-                    <p>
-                        Note that for demo purposes you don't need to register and can login with these credentials:
-                    </p>
-                    <p>
-                        User:     <b>demouser@microsoft.com</b>
-                    </p>
-                    <p>
-                        Password: <b>Pass@word1</b>
-                    </p>
-                </form>
-            </section>
+
+                        <div class="col-lg-6 col-12 mx-auto">
+                            <input asp-for="Password" class="form-control" placeholder="password" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-lg-6 col-12 mx-auto mt-3">
+                            <input asp-for="RememberMe" />
+                            @Html.DisplayNameFor(m => m.RememberMe)
+                        </div>
+
+                        <div class="col-lg-3 col-md-4 col-6 mx-auto">
+                            <button type="submit" class="form-control" id="submit-button">Log In</button>
+                        </div>
+                        <div class="col-lg-6 mt-3 col-12 mx-auto">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                        </div>
+                        <div class="col-lg-6 col-12 mx-auto">
+                            <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" class="text">Register as a new user?</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
         </div>
     </div>
-</div>
+</section>
 
 @section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

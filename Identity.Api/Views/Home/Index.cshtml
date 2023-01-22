@@ -1,30 +1,36 @@
-﻿<div class="welcome-page container">
-    <div class="row page-header">
-        <div class="col-sm-10">
-            <h1>
-                <img class="icon" src="~/icon.jpg">
-                Welcome to IdentityServer4
-                @*<small>(build {version})</small>*@
-            </h1>
-        </div>
-    </div>
+﻿<section class="hero" id="hero">
+    <div class="container">
+        <div class="row">
 
-    <div class="row">
-        <div class="col-sm-8">
-            <p>
-                IdentityServer publishes a
-                <a href="~/.well-known/openid-configuration">discovery document</a>
-                where you can find metadata and links to all the endpoints, key material, etc.
-            </p>
+            <div class="col-12">
+                <div id="myCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="~/images/slider/doctor-s-hand-holding-stethoscope-closeup.jpg" class="img-fluid" alt="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="heroText d-flex flex-column justify-content-center">
+
+                    <h1 class="mt-auto mb-2">
+                        Better
+                        <div class="animated-info">
+                            <span class="animated-item">health</span>
+                            <span class="animated-item">days</span>
+                            <span class="animated-item">lives</span>
+                        </div>
+                    </h1>
+
+                    <p class="mb-4">Medecin Manager Identity is an identity server where you can create account.</p>
+
+                    <div class="heroLinks d-flex flex-wrap align-items-center">
+                        <a class="custom-link me-4" asp-controller="Account" asp-action="login" data-hover="Login">Login</a>
+                        <a class="custom-link me-4" asp-controller="Account" asp-action="Register" data-hover="Register">Register</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-8">
-            <p>
-                Here are links to the
-                <a href="https://github.com/identityserver/IdentityServer4">source code repository</a>,
-                and <a href="https://github.com/identityserver/IdentityServer4.Samples">ready to use samples</a>.
-            </p>
-        </div>
-    </div>
-</div>
+</section>
